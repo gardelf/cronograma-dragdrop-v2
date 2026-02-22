@@ -53,16 +53,14 @@ print(f"📋 Pending new events for review: {len(new_events_pending)}")
 
 # Get calendar events from PERSONAL calendar (highest priority)
 print("\n2️⃣ Fetching events from YOUR personal calendar...")
-# Load .env explicitly to ensure iCloud credentials are available
-from config import load_env_file
-load_env_file()
+# iCloud credentials are loaded from environment variables
 calendar_client = iCloudCalendarClient()
 calendar_events = calendar_client.get_today_events(target_date=target_date)
 print(f"✅ Found {len(calendar_events)} calendar events in your personal calendar")
 
 # Get ALL active tasks from Todoist and filter by target date
 print("\n3️⃣ Fetching active tasks from Todoist...")
-todoist_client = TodoistClient(config["TODOIST_API_TOKEN"])
+todoist_client = TodoistClient(config.todoist_api_token)
 all_tasks = todoist_client.get_all_active_tasks()
 formatted_tasks = todoist_client.format_tasks_for_display(all_tasks)
 
@@ -711,10 +709,6 @@ try:
     from firefly_client import FireflyClient
     from datetime import datetime
     import calendar
-    from config import load_env_file
-    
-    # Ensure .env is loaded
-    load_env_file()
     
     firefly_client = FireflyClient()
     firefly_data = firefly_client.get_summary()
