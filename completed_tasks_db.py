@@ -8,13 +8,8 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 import os
 
-# Use relative path that works in both sandbox and Railway
-import sys
-if os.path.exists('/app'):
-    DB_PATH = '/app/data/completed_tasks.db'
-else:
-    # Use current directory for sandbox
-    DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'completed_tasks.db')
+# Use current directory for both sandbox and Railway
+DB_PATH = os.path.join(os.getcwd(), 'data', 'completed_tasks.db')
 
 def init_db():
     """Initialize the completed tasks database"""
