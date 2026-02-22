@@ -13,7 +13,6 @@ Features:
 
 from todoist_client import TodoistClient
 from calendar_client import iCloudCalendarClient
-from config import get_config
 from ics_exporter import ICSExporter
 from event_detector import detect_new_events_in_shared_calendar
 from events_db import get_new_events
@@ -22,7 +21,14 @@ import json
 import os
 import sys
 
-config = get_config()
+# Get configuration from environment variables
+class Config:
+    def __init__(self):
+        self.todoist_api_token = os.getenv('TODOIST_API_TOKEN')
+        self.icloud_username = os.getenv('ICLOUD_USERNAME')
+        self.icloud_app_password = os.getenv('ICLOUD_APP_PASSWORD')
+
+config = Config()
 
 # Check if --tomorrow flag is passed
 generate_for_tomorrow = '--tomorrow' in sys.argv
